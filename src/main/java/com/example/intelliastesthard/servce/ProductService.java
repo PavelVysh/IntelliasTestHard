@@ -43,18 +43,9 @@ public class ProductService {
     }
 
     public Set<Product> productsByCustomer(int customerId) {
-        Query query = entityManager.createQuery("From Product");
-        List<Product> products = query.getResultList();
-        Set<Product> productsByCustomer = new HashSet<>();
+        Query query = entityManager.createQuery("SELECT c.products From Customer c WHERE c.id=:customerId");
+        query.setParameter("customerId",customerId);
 
-        for(Product product : products) {
-            List<Customer> customers = product.getCustomerList();
-            for (Customer customer : customers) {
-                if (customer.getId() == customerId) {
-                    productsByCustomer.add(product);
-                }
-            }
-        }
-        return productsByCustomer;
+        return new HashSet<Product>(query.getResultList());
     }
 }

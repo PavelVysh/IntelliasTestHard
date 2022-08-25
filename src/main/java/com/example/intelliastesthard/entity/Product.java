@@ -21,8 +21,7 @@ public class Product {
     private String name;
     @Column(name="price")
     private int price;
-    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.MERGE,
-            CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="purchases",
             joinColumns = @JoinColumn(name="product_id"),

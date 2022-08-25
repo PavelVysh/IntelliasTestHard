@@ -42,19 +42,11 @@ public class CustomerService {
     }
 
     public Set<Customer> findByProduct(int productId) {
-            Query query = entityManager.createQuery("From Customer");
-        List<Customer> customers = query.getResultList();
-        Set<Customer> customersWithProduct = new HashSet<>() {};
+        Query query = entityManager.createQuery("select p.customerList from Product p where p.id=:productId");
+        query.setParameter("productId", productId);
 
-        for(Customer customer : customers) {
-            List<Product> products = customer.getProducts();
-            for (Product product : products) {
-                if (product.getId() == productId) {
-                    customersWithProduct.add(customer);
-                }
-            }
-        }
-        return customersWithProduct;
+
+        return new HashSet<Customer>(query.getResultList());
+
     }
-
 }
