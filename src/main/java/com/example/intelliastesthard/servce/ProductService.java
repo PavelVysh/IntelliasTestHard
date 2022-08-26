@@ -42,10 +42,12 @@ public class ProductService {
         return productDao.findAll();
     }
 
-    public Set<Product> productsByCustomer(int customerId) {
-        Query query = entityManager.createQuery("SELECT c.products From Customer c WHERE c.id=:customerId");
+    public List<Product> productsByCustomer(int customerId) {
+        Query query = entityManager.createQuery("SELECT DISTINCT p.id,p.name,p.price FROM Product p " +
+                                                   "JOIN Purchase r ON p.id=r.product_id " +
+                                                   "WHERE r.customer_id=:customerId");
         query.setParameter("customerId",customerId);
 
-        return new HashSet<Product>(query.getResultList());
+        return query.getResultList();
     }
 }

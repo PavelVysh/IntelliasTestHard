@@ -41,12 +41,14 @@ public class CustomerService {
         return entityManager.find(Customer.class,id);
     }
 
-    public Set<Customer> findByProduct(int productId) {
-        Query query = entityManager.createQuery("select p.customerList from Product p where p.id=:productId");
+    public List<Customer> findByProduct(int productId) {
+        Query query = entityManager.createQuery("SELECT DISTINCT c.id,c.firstName,c.lastName,c.amountOfMoney " +
+                                                   "FROM Customer c JOIN Purchase p ON c.id=p.customer_id " +
+                                                   "WHERE p.product_id=:productId");
         query.setParameter("productId", productId);
 
 
-        return new HashSet<Customer>(query.getResultList());
+        return query.getResultList();
 
     }
 }

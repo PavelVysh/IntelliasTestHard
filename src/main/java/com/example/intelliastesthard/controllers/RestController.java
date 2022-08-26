@@ -70,11 +70,11 @@ public class RestController {
         return "Purchase was successful";
     }
     @GetMapping("/listByProduct/{productId}")
-    public Set<Customer> listByProduct(@PathVariable int productId) {
+    public List<Customer> listByProduct(@PathVariable int productId) {
         return customerService.findByProduct(productId);
     }
     @GetMapping("/listByCustomers/{customerId}")
-    public Set<Product> listByCustomer(@PathVariable int customerId) {
+    public List<Product> listByCustomer(@PathVariable int customerId) {
         return productService.productsByCustomer(customerId);
     }
 }
